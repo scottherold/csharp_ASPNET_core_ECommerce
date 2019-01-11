@@ -1,0 +1,37 @@
+@model Order
+<!-- Insert Model Here -->
+<div class="row justify-content-center">
+    <div class="col-lg-10 rounded justify-content-center m-4 bg-white">
+        <div class="row justify-content-center m-3">
+            <h1>You Ordered @Model.Amount @Model.Product.Name</h1>
+        </div>
+        <div class="row justify-content-start m-3">
+            <div class="col-3">
+                <div class="row justify-content-center m-1">
+                    <img src="@Model.Product.Image" class="product-img mb-2" alt="@Model.Product.Name Picture">
+                </div>
+            </div>
+            <div class="col-9 justify-content-start">
+                <div class="row m-1">
+                    <h5>Order Date: @Model.CreatedAt</h5>
+                </div>
+                <div class="row mx-1 mt-1 mb-4">
+                    <h5>Ordered From: @Model.Product.Creator.FirstName @Model.Product.Creator.LastName</h5>
+                </div>
+                <div class="row m-1 mb-3">
+                    <h4>Update Order</h4>
+                </div>
+                @Html.Partial("Edit")
+                <hr>
+                <div class="row m-1 justify-content-center">
+                    <h5>Cancel Order?</h5>
+                </div>
+                <div class="row mx-1 mt-1 mb-4 justify-content-center">
+                    <form asp-action="Destroy" asp-controller="Orders" asp-route-id="@Model.OrderId" method="POST">
+                        <button type="submit" class="btn btn-danger mt-2">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+@model Account
+<div class="row m-1 justify-content-center">
+    <h3>Update Account Information</h3>
+</div>
+<form asp-action="Update" asp-controller="Accounts" asp-route-id="@Model.AccountId" method="POST">
+    <div class="row justify-content-start m-1">
+        <label asp-for="Email">Email</label>
+    </div>
+    <div class="row justify-content-start m-1">
+        <input asp-for="Email">
+    </div>
+    <div class="row justify-content-start ml-1">
+        <p><span asp-validation-for="Email" class="text-danger"></span></p>
+    </div>
+    <div class="row justify-content-start m-1">
+        <label asp-for="Image">Image URL <span class="font-weight-light">(100px x 100px)</span></label>
+    </div>
+    <div class="row justify-content-start m-1">
+        <input asp-for="Image" value="http://">
+    </div>
+    <div class="row justify-content-start ml-1">
+        <p><span asp-validation-for="Image" class="text-danger"></span></p>
+    </div>
+    <div class="row justify-content-start m-1">
+        <label asp-for="Password">New Password</label>
+    </div>
+    <div class="row justify-content-start m-1">
+        <input type="password" asp-for="Password">
+    </div>
+    <div class="row justify-content-start m-1">
+        <label asp-for="Confirm">Confirm Password</label>
+    </div>
+    <div class="row justify-content-start m-1">
+        <input type="password" asp-for="Confirm">
+    </div>
+    <div class="row justify-content-start ml-1">
+        <p><span asp-validation-for="Password" class="text-danger"></span></p>
+    </div>
+    <div class="form-row justify-content-center mb-2">
+        <button type="submit" class="btn btn-success mt-2">Update</button>
+    </div>
+</form>

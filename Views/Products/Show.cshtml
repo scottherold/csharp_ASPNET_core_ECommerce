@@ -1,0 +1,81 @@
+@model ECommerceBundle
+<!-- Insert Model Here -->
+<div class="row justify-content-center">
+    <div class="col-lg-10 rounded justify-content-center m-4 bg-white">
+        <div class="row justify-content-center m-3">
+            <h1>@Model.Product.Name</h1>
+        </div>
+        
+        <div class="row justify-content-start m-3">
+            <div class="col-3">
+                <div class="row justify-content-center m-1">
+                    <img src="@Model.Product.Image" class="product-img mb-2" alt="@Model.Product.Name Picture">
+                </div>
+            </div>
+            <div class="col-9 justify-content-start">
+                <div class="row m-1">
+                    <h5>Creator: @Model.Product.Creator.FirstName @Model.Product.Creator.LastName</h5>
+                </div>
+                <div class="row mx-1 mt-1 mb-3">
+                    <h5>Quantity: @Model.Product.Quantity</h5>
+                </div>
+                <div class="row m-1">
+                    <h5>Description:</h5>
+                </div>
+                <div class="row mx-1 mt-1 mb-3">
+                    <p>@Model.Product.Description</p>
+                </div>
+                @Html.Partial("~/Views/Orders/New.cshtml")
+                @if(Model.Product.AccountId == ViewBag.AccountId)
+                {
+                    <hr>
+                    <div class="row m-1 justify-content-start">
+                        <h5>Remove Product?</h5>
+                    </div>
+                    <div class="row mx-1 mt-1 mb-4">
+                        <form asp-action="Destroy" asp-controller="Products" asp-route-id="@Model.Product.ProductId" method="POST">
+                            <button type="submit" class="btn btn-danger mt-2">Remove</button>
+                        </form>
+                    </div>
+                    <hr>
+                    @Html.Partial("Edit", new Product())
+                    <hr>
+                }
+                <div class="row m-1">
+                    <h5>Current Orders:</h5>
+                </div>
+                <div class="row mx-3 mt-1 mb-3 justify-content-center">
+                    @{
+                        // Checks Customer list for objects, if none display text, otherwise display list
+                        if(Model.Product.Customers.Count == 0)
+                        {
+                            <h6 class="text-danger text-center">No Current Orders!</h6>
+                        }
+                        else
+                        {
+                            <table class="table table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col w-25">User</th>
+                                    <th scope="col w-25">Quantity</th>
+                                    <th scope="col w-25">Creation Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var order in Model.Product.Customers)
+                                {
+                                    <tr>
+                                        <td>@order.Account.FirstName @order.Account.LastName</td>
+                                        <td>@order.Amount</td>
+                                        <td>@order.CreatedAt.ToString("MMM d, yyyy")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

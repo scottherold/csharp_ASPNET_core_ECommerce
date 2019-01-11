@@ -1,0 +1,79 @@
+@model ECommerceBundle
+<!-- Insert Model Here -->
+<div class="row justify-content-center">
+    <div class="col-lg-10 rounded justify-content-center m-4 bg-white">
+        <div class="row justify-content-center mx-3 mt-3 mb-5">
+            <h1>Welcome to E-Commerce!</h1>
+        </div>
+        <div class="row justify-content-start">
+            <div class="col-md-3 my-2 mr-1 ml-5">
+                @Html.Partial("Filter")
+            </div>
+            <div class="col-md-8 m-1">
+                <div class="row m-2 justify-content-center">
+                    @{
+                        // Checks ProductList for objects, if none display text, otherwise display list
+                        if(Model.ProductList.Count == 0)
+                        {
+                            <h5 class="text-danger text-center">No Products Currently Available!</h5>
+                        }
+                        else
+                        {
+                            foreach(var product in Model.ProductList)
+                            {
+                                <div class="col-md-3">
+                                    <div class="row justify-content-center">
+                                        <img src="@product.Image" class="product-img mb-2" alt="@product.Name Picture">
+                                    </div>
+                                    <div class="row justify-content-center text-center">
+                                        <a asp-controller="Products" asp-action="Show" asp-route-id="@product.ProductId">@product.Name</a>
+                                    </div>
+                                    <div class="row justify-content-center text-center">
+                                        @if(@product.Quantity > 0)
+                                        {
+                                            <p>(@product.Quantity Left)</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-danger">Currently Out of Stock!</p>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+                <div class="row m-2 justify-content-center">
+                    <a class="nav-item nav-link active" asp-controller="Products" asp-action="Products">Show All Products</a>
+                </div>
+                <hr>
+                <div class="row m-2 justify-content-center">
+                    <h3>Welcome to Our Newest Customers</h3>
+                </div>
+                <div class="row m-2 justify-content-center">
+                    @{
+                        // Checks AccountList for objects, if none display text, otherwise display list
+                        if(Model.AccountList.Count == 0)
+                        {
+                            <h5 class="text-danger text-center">No Customers Yet!</h5>
+                        }
+                        else
+                        {
+                            <table class="table table-striped">
+                                @foreach(var account in Model.AccountList)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img src="@account.Image" class="user-img-sm mr-2" alt="Picture of @account.FirstName @account.LastName">
+                                            @account.FirstName @account.LastName joined the store. (@((DateTime.Today.Date - account.CreatedAt.Date).TotalDays) days ago)
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

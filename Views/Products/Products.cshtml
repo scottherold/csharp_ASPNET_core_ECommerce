@@ -1,0 +1,92 @@
+@model ECommerceBundle
+<!-- Insert Model Here -->
+<div class="row justify-content-center">
+    <div class="col-lg-10 rounded justify-content-center m-4 bg-white">
+        <div class="row justify-content-center m-3">
+            <h1>Product List</h1>
+        </div>
+        <div class="row justify-content-start">
+            <div class="col-md-3 my-2 mr-1 ml-5">
+                @Html.Partial("Filter")
+                <form asp-action="Create" asp-controller="Products" method="POST">
+                    <div class="form-row justify-content-start mt-4">
+                        <h5>Add a new Product</h5>
+                    </div>
+                    <div class="form-row justify-content-start">
+                        <label asp-for="@Model.Product.Name">Name:</label>
+                    </div>
+                    <div class="form-row justify-content-start mb-2">
+                        <input type="text" asp-for="@Model.Product.Name" class="w-100">
+                        <p><span asp-validation-for="@Model.Product.Name" class="text-danger"></span></p>
+                    </div>
+                    <div class="form-row justify-content-start">
+                        <label asp-for="@Model.Product.Image">Image <span class="font-weight-light">(100px x 100px)</span>:</label>
+                    </div>
+                    <div class="form-row justify-content-start mb-2">
+                        <input type="text" asp-for="@Model.Product.Image" class="w-100" value="http://">
+                        <p><span asp-validation-for="@Model.Product.Image" class="text-danger"></span></p>
+                    </div>
+                    <div class="form-row justify-content-start">
+                        <label asp-for="@Model.Product.Description">Description:</label>
+                    </div>
+                    <div class="form-row justify-content-start mb-2">
+                        <textarea asp-for="@Model.Product.Description" class="w-100" rows="5"></textarea>
+                        <p><span asp-validation-for="@Model.Product.Description" class="text-danger"></span></p>
+                    </div>
+                    <div class="form-row justify-content-start">
+                        <label asp-for="@Model.Product.Quantity">Quantity:</label>
+                    </div>
+                    <div class="form-row justify-content-start mb-2">
+                        <input type="text" asp-for="@Model.Product.Quantity" class="w-100">
+                        <p><span asp-validation-for="@Model.Product.Quantity" class="text-danger"></span></p>
+                    </div>
+                    <div class="form-row justify-content-end mb-2">
+                        <button type="submit" class="btn btn-primary mt-2">Create</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8 m-1">
+                <div class="row m-2 justify-content-center">
+                    @{
+                        // Checks ProductList for objects, if none display text, otherwise display list
+                        if(Model.ProductList.Count == 0)
+                        {
+                            <h5 class="text-danger text-center">No Products Currently Available!</h5>
+                        }
+                        else
+                        {
+                            foreach(var product in Model.ProductList)
+                            {
+                                <div class="col-md-3">
+                                    <div class="row justify-content-center">
+                                        <img src="@product.Image" class="product-img mb-2" alt="@product.Name Picture">
+                                    </div>
+                                    <div class="row justify-content-center text-center">
+                                        <a asp-controller="Products" asp-action="Show" asp-route-id="@product.ProductId">@product.Name</a>
+                                    </div>
+                                    <div class="row justify-content-center text-center">
+                                        @if(@product.Quantity > 0)
+                                        {
+                                            <p>(@product.Quantity Left)</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-danger"> Currently Out of Stock!</p>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+                @if(ViewBag.Filtered == true)
+                {
+                    <hr>
+                    <div class="row m-2 justify-content-center">
+                        <a asp-controller="Products" asp-action="Products">Clear Filter</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

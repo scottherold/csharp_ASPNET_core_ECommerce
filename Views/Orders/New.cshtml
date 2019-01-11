@@ -1,0 +1,61 @@
+@model ECommerceBundle
+@{
+    if(@Model.Product.AccountId != ViewBag.AccountId)
+    {
+        <hr>
+        <div class="row m-1 mb-3">
+            <h4>Add a New Order</h4>
+        </div>
+
+        // If Product quantity greater than 0, create Order form
+        // else display 'Sold Out' message
+        @if(@Model.Product.Quantity > 0)
+        {
+            <form asp-action="Create" asp-controller="Orders" method="POST">
+                <input type="hidden" asp-for="@Model.Order.ProductId" value="@Model.Product.ProductId">
+                <div class="form-row justify-content-start mx-1 mb-4">
+                    <div class="col-md-6 mt-2">
+                        <label asp-for="@Model.Order.Amount">Order Amount <span class="font-weight-light">(max 10 items per order)</span></label>
+                    </div>
+                    <div class="col-md-2 ml-1 mr-2 mt-2">
+                        <select class="w-100" asp-for="@Model.Order.Amount">
+
+                            // If Product Quantity < 10, populate select list with
+                            // numbers up to Quantity, otherwise populate select list
+                            // with numbers up to 10.
+                            @if(@Model.Product.Quantity <= 10)
+                            {
+                                var i = 1;
+                                while(i <= @Model.Product.Quantity)
+                                {
+                                    <option value="@i">@i</option>;
+                                    i++;
+                                }
+                            }
+                            else
+                            {
+                                var i = 1;
+                                while(i <= 10)
+                                {
+                                    <option value="@i">@i</option>;
+                                    i++;
+                                }
+                            }
+                        </select>
+                        @if(ViewBag.InvalidAction != null)
+                        {
+                            <p><span class="text-danger">@ViewBag.InvalidAction</span></p>
+                        }
+                    </div>
+                    <div class="col-md-2 align-self-center">
+                        <button type="submit" class="btn btn-primary">Create Order</button>
+                    </div>
+                </div>
+            </form>
+        }
+        else
+        {
+            <h6 class="text-danger text-center">Currently Sold Out!</h6>
+        }
+    }
+}

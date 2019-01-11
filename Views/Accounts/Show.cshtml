@@ -1,0 +1,122 @@
+@model Account
+<!-- Insert Model Here -->
+<div class="row justify-content-center">
+    <div class="col-lg-10 rounded justify-content-center m-4 bg-white">
+        <div class="row justify-content-center m-3">
+            <h1>@Model.FirstName @Model.LastName</h1>
+        </div>
+        <div class="row justify-content-start m-3">
+            <div class="col-3">
+                <div class="row justify-content-center m-1">
+                    <img src="@Model.Image" class="user-img mb-2">
+                </div>
+            </div>
+            <div class="col-9 justify-content-start">
+                <div class="row m-1">
+                    <h5>Email: @Model.Email</h5>
+                </div>
+                <div class="row mx-1 mt-1 mb-3">
+                    <h5>Birthday: @Model.Birthday.Value.ToString("MMMM d, yyyy")</h5>
+                </div>
+                <hr>
+                @Html.Partial("Edit")
+                <hr>
+                <div class="row m-1">
+                    <h5>Products Added:</h5>
+                </div>
+                <div class="row mx-3 mt-1 mb-3 justify-content-center">
+                    @{
+                        // Checks CreatedProducts list for objects, if none display text, otherwise display list
+                        if(Model.CreatedProducts.Count == 0)
+                        {
+                            <h6 class="text-danger text-center">No Added Products!</h6>
+                        }
+                        else
+                        {
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Creation Date</th>
+                                        <th scope="col" class="text-center w-25">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach(var product in Model.CreatedProducts)
+                                    {
+                                        <tr>
+                                            <td class="align-middle"><a asp-controller="Products" asp-action="Show" asp-route-id="@product.ProductId">@product.Name</a></td>
+                                            <td class="align-middle">@product.Quantity</td>
+                                            <td class="align-middle">@product.CreatedAt.ToString("MMM d, yyyy")</td>
+                                            <td class="align-middle">
+                                                <div class="row justify-content-center">
+                                                    <form asp-action="Destroy" asp-controller="Products" asp-route-id="@product.ProductId" method="POST">
+                                                        <button type="submit" class="btn btn-sm btn-link text-danger"><h6>Remove</h6></button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    }
+                </div>
+                <div class="row m-1 mb-4 justify-content-center">
+                    <a class="btn btn-primary" asp-controller="Products" asp-action="Products">Add New Product</a>
+                </div>
+                <div class="row m-1">
+                    <h5>Account Orders:</h5>
+                </div>
+                @{
+                    // Checks Orders list for objects, if none display text, else display list
+                    if(Model.Orders.Count == 0)
+                    {
+                        <h6 class="text-danger text-center">No Current Orders!</h6>
+                    }
+                    else
+                    {
+                        <div class="row my-1 mx-3">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Order Date</th>
+                                        <th scope="col" class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach(var order in Model.Orders)
+                                    {
+                                        <tr>
+                                            <td class="align-middle"><a asp-controller="Products" asp-action="Show" asp-route-id="@order.Product.ProductId">@order.Product.Name</a></td>
+                                            <td class="align-middle">@order.Amount</td>
+                                            <td class="align-middle">@order.CreatedAt.ToString("MMM d, yyyy")</td>
+                                            <td class="text-center align-middle">
+                                                <a asp-controller="Orders" asp-action="Show" asp-route-id="@order.OrderId" class="btn btn-sm btn-link text-primary">View Order</a> /
+                                                <form asp-action="Destroy" asp-controller="Orders" asp-route-id="@order.OrderId" method="POST">
+                                                    <button type="submit" class="btn btn-sm btn-link text-danger">Cancel Order</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                }
+                <hr>
+                <div class="row m-1 justify-content-center">
+                    <h5>Delete Account</h5>
+                </div>
+                <div class="row mx-1 mt-1 mb-4 justify-content-center">
+                    <form asp-action="Destroy" asp-controller="Accounts" asp-route-id="@Model.AccountId" method="POST">
+                        <button type="submit" class="btn btn-danger mt-2">Delete Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

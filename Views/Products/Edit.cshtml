@@ -1,0 +1,45 @@
+@model Product
+<div class="row m-1 justify-content-center">
+    <h3>Update Product Information</h3>
+</div>
+<form asp-action="Update" asp-controller="Products" method="POST" asp-route-id="@ViewBag.ProductId">
+    <div class="row justify-content-start m-1">
+        <label asp-for="Name">Name</label>
+    </div>
+    <div class="row justify-content-start m-1">
+        <input asp-for="Name">
+    </div>
+    <div class="row justify-content-start ml-1">
+        <p><span asp-validation-for="Name" class="text-danger"></span></p>
+    </div>
+    <div class="row justify-content-start m-1">
+        <label asp-for="Image">Image URL <span class="font-weight-light">(100px x 100px)</span></label>
+    </div>
+    <div class="row justify-content-start m-1">
+        <input asp-for="Image">
+    </div>
+    <div class="row justify-content-start ml-1">
+        <p><span asp-validation-for="Image" class="text-danger"></span></p>
+    </div>
+    <div class="row justify-content-start m-1">
+        <label asp-for="Quantity">Quantity</label>
+    </div>
+    <div class="row justify-content-start m-1">
+        <input asp-for="Quantity">
+    </div>
+    <div class="row justify-content-start ml-1">
+        <p><span asp-validation-for="Quantity" class="text-danger"></span></p>
+    </div>
+    <div class="row justify-content-start m-1">
+        <label asp-for="Description">Description</label>
+    </div>
+    <div class="row justify-content-start m-1">
+        <textarea asp-for="Description" class ="w-100" rows="3"></textarea>
+    </div>
+    <div class="row justify-content-start ml-1">
+        <p><span asp-validation-for="Description" class="text-danger"></span></p>
+    </div>
+    <div class="form-row justify-content-center mb-4">
+        <button type="submit" class="btn btn-success mt-2">Update</button>
+    </div>
+</form>
